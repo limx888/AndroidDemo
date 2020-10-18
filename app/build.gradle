@@ -1,0 +1,122 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        applicationId rootProject.ext.android["applicationId"]
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        //ARouter添加的
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+        //定义网络请求成功返回码 baseurl  日志打印  切换环境  在代码中BuildConfig.BASE_URL去使用
+        buildConfigField "String", "CODE_SUCCESS", getCodeSuccess()
+        buildConfigField "String", "CODELIST_SUCCESS", getCodeListSuccess()
+        buildConfigField "String", "WANANDROID_CODELIST_SUCCESS", getWanAndroidCodeListSuccess()
+        buildConfigField "String", "GANK_CODELIST_SUCCESS", getGankCodeListSuccess()
+        buildConfigField "String", "BASE_URL", getBaseUrl()
+        buildConfigField "boolean", "OPEN_LOG", getOpenLog()
+        buildConfigField "boolean", "OPEN_CHANGE", getOpenChange()
+        buildConfigField "boolean", "OPEN_AROUTER", getOpenARouter()
+    }
+
+    dataBinding {
+        enabled true
+    }
+    signingConfigs {
+        release {
+            storeFile file('jks/demo.jks')
+            storePassword '123456'
+            keyAlias 'demo'
+            keyPassword '123456'
+        }
+    }
+
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            android.applicationVariants.all {
+                variant ->
+                    variant.outputs.all {
+                        // 此处指定生成的apk文件名
+                        def newName = "demo_" + variant.buildType.name + "_v" + rootProject.ext.android["versionName"] + "_" + rootProject.ext.android["versionCode"] + ".apk"
+                        outputFileName = newName
+                    }
+            }
+
+            //打发布包命令:gradlew assembleRelease
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+
+}
+
+//相关配置的获取方法及其处理
+def getOpenLog() {
+    return "${OPEN_LOG}"
+}
+
+def getOpenChange() {
+    return "${OPEN_CHANGE}"
+}
+
+def getOpenARouter() {
+    return "${OPEN_AROUTER}"
+}
+
+def getBaseUrl() {
+    //最后没有斜杠，需要手动拼接
+    return "\"" + String.valueOf(BASE_URL).trim() + "/\""
+}
+
+def getCodeSuccess() {
+    return "\"" + String.valueOf(CODE_SUCCESS) + "\""
+}
+
+def getCodeListSuccess() {
+    return "\"" + String.valueOf(CODELIST_SUCCESS) + "\""
+}
+
+def getWanAndroidCodeListSuccess() {
+    return "\"" + String.valueOf(WANANDROID_CODELIST_SUCCESS) + "\""
+}
+
+def getGankCodeListSuccess() {
+    return "\"" + String.valueOf(GANK_CODELIST_SUCCESS) + "\""
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    //base引入
+    api project(':base')
+
+    //arouter
+    api rootProject.ext.dependencies["arouter"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
+
+}
