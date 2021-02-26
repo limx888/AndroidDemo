@@ -120,6 +120,11 @@ class MainActivity : BaseActivity<MainViewModel, ViewDataBinding>() {
         tv_more2.setOnClickListener {
             ARouter.getInstance().build(ARouterUri.ChangeBaseUrlTwoActivity).navigation()
         }
+
+        //jsbridge H5与原生数据交互
+        tv_jsbridge.setOnClickListener {
+            ARouter.getInstance().build(ARouterUri.JSBridgeActivity).navigation()
+        }
     }
 
     override fun getSmartRefreshLayout(): SmartRefreshLayout? {

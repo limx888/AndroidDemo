@@ -1,5 +1,7 @@
 package com.lmx.demo.constants
 
+import com.lmx.demo.module.jsbridge.JSBridgeActivity
+
 /**
  * @Desc: ARouter跳转的Uri
  * @Author: limingxia
@@ -20,5 +22,7 @@ object ARouterUri {
     const val EventBusActivity = "/demo/ui/EventBusActivity"
     const val ChangeBaseUrlActivity = "/demo/ui/ChangeBaseUrlActivity"
     const val ChangeBaseUrlTwoActivity = "/demo/ui/ChangeBaseUrlTwoActivity"
+
+    const val JSBridgeActivity = "/demo/ui/JSBridgeActivity"
 
 }

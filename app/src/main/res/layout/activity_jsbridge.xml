@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/windowBackground"
+        tools:context="com.lmx.demo.module.main.JSBridgeActivity">
+
+        <include layout="@layout/toolbar" />
+
+        <Button
+            android:id="@+id/return_data"
+            android:layout_width="@dimen/dp136"
+            android:layout_height="@dimen/dp36"
+            android:layout_marginTop="@dimen/dp40"
+            android:layout_marginBottom="@dimen/dp20"
+            android:background="@drawable/shape_status"
+            android:text="返回数据给Html"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.lmx.demo.module.jsbridge.BridgeWebView
+            android:id="@+id/main_wv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize"
+            app:layout_constraintBottom_toTopOf="@id/return_data" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
