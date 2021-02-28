@@ -4,12 +4,12 @@ apply from: "config.gradle"
 buildscript {
     ext.kotlin_version = "1.4.10"
     repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         google()
         jcenter()
-        maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.2.0-beta01'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
 
@@ -20,8 +20,10 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
         google()
-//        jcenter()
+        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.google.com' }
